@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/go-chi/cors"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -25,6 +26,15 @@ func NewHandler(q *pgstore.Queries) http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID, middleware.Recoverer, middleware.Logger)
+
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 
 	r.Get("/subscribe/{room_id}", a.handleSubscribe)
 
