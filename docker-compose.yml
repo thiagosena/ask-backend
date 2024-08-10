@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:latest
+    container_name: postgres-go
     restart: unless-stopped
     ports:
       - ${ASK_DATABASE_PORT:-5476}:5432
