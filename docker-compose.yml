@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - ${ASK_DATABASE_PORT:-5476}:5432
+    environment:
+      POSTGRES_USER: ${ASK_DATABASE_USER}
+      POSTGRES_PASSWORD: ${ASK_DATABASE_PASSWORD}
+      POSTGRES_DB: ${ASK_DATABASE_NAME}
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
